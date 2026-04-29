@@ -114,6 +114,29 @@ Typical overlay components include:
 
 ---
 
+## Host Configuration
+
+Configure the server IP addresses based on the VLAN they belong to.
+
+### VLAN 10 Hosts
+
+```bash
+sudo ifconfig eth0 <vlan10-ip-address> netmask <interface-vlan10-netmask>
+sudo route add default gw <interface-vlan10-ipaddress>
+```
+Example:
+```bash
+sudo ifconfig eth0 172.16.10.10 netmask 255.255.255.0
+sudo route add default gw 172.16.10.1
+```
+### VLAN 20 Hosts
+Example:
+```bash
+sudo ifconfig eth0 172.16.20.10 netmask 255.255.255.0
+sudo route add default gw 172.16.20.1
+```
+---
+
 ## Nexus Features Required
 
 The following features need to be enabled on the Nexus leaf switches:
