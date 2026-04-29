@@ -22,7 +22,7 @@ annotations:
     text_content: '65001'
     text_font: monospace
     text_italic: false
-    text_size: 12
+    text_size: 14
     text_unit: pt
     thickness: 3
     type: text
@@ -37,7 +37,7 @@ annotations:
     text_content: '65002'
     text_font: monospace
     text_italic: false
-    text_size: 12
+    text_size: 14
     text_unit: pt
     thickness: 3
     type: text
@@ -280,11 +280,278 @@ annotations:
     y1: -120.0
     x2: 880.0
     y2: 520.0
-    z_index: 3
+    z_index: -1
 smart_annotations: []
 nodes:
   - boot_disk_size: null
-    configuration: []
+    configuration:
+      - name: nxos_config.txt
+        content: |2-
+
+          !Command: show running-config
+          !Running configuration last done at: Wed Apr 29 14:06:17 2026
+          !Time: Wed Apr 29 14:06:18 2026
+
+          version 10.5(3) Bios:version
+          hostname LEAF-A
+          vdc LEAF-A id 1
+            limit-resource vlan minimum 16 maximum 4094
+            limit-resource vrf minimum 2 maximum 4096
+            limit-resource port-channel minimum 0 maximum 511
+            limit-resource m4route-mem minimum 58 maximum 58
+            limit-resource m6route-mem minimum 8 maximum 8
+
+          nv overlay evpn
+          feature bgp
+          feature fabric forwarding
+          feature interface-vlan
+          feature vn-segment-vlan-based
+          feature nv overlay
+
+          no password strength-check
+          username admin password 5 $5$MNNEMP$RfxSdD8.pD1Rqm0LknEuU6O5keK31/hoxqZub1UyMD0  role network-admin
+          username cisco password 5 $5$LJPILH$oXX9e9jTAsaqb/OAyACorqupC6JxeKgQlGGR7alVSx/  role network-admin
+          username cisco passphrase  lifetime 99999 warntime 14 gracetime 3
+          ip domain-lookup
+          hardware access-list tcam region racl 512
+          hardware access-list tcam region arp-ether 256 double-wide
+          snmp-server user admin network-admin auth md5 0142E285F9AB8FE190A66A3ECEBB779B5A27 priv aes-128 040E89E095B7BAD0E5930B4BA3C52FA15551 localizedV2key
+          snmp-server user cisco network-admin auth md5 1758B1A8C2D5A19589CA631A8BFC498A436D priv aes-128 1748E8AFC9C5FC96D59F3E6E93B91B954122 localizedV2key
+          rmon event 1 log trap public description FATAL(1) owner PMON@FATAL
+          rmon event 2 log trap public description CRITICAL(2) owner PMON@CRITICAL
+          rmon event 3 log trap public description ERROR(3) owner PMON@ERROR
+          rmon event 4 log trap public description WARNING(4) owner PMON@WARNING
+          rmon event 5 log trap public description INFORMATION(5) owner PMON@INFO
+
+          fabric forwarding anycast-gateway-mac 0001.0001.0001
+          vlan 1,10,20,50
+          vlan 10
+            vn-segment 10010
+          vlan 20
+            vn-segment 10020
+          vlan 50
+            vn-segment 50000
+
+          vrf context PROD
+            vni 50000
+            rd 1:50000
+            address-family ipv4 unicast
+              route-target import 50000:50000
+              route-target import 50000:50000 evpn
+              route-target export 50000:50000
+              route-target export 50000:50000 evpn
+          vrf context management
+
+          interface Vlan1
+
+          interface Vlan10
+            no shutdown
+            vrf member PROD
+            ip address 172.16.10.1/24
+            fabric forwarding mode anycast-gateway
+
+          interface Vlan20
+            no shutdown
+            vrf member PROD
+            ip address 172.16.20.1/24
+            fabric forwarding mode anycast-gateway
+
+          interface Vlan50
+            no shutdown
+            vrf member PROD
+            ip forward
+
+          interface nve1
+            no shutdown
+            host-reachability protocol bgp
+            source-interface loopback0
+            member vni 10010
+              ingress-replication protocol bgp
+            member vni 10020
+              ingress-replication protocol bgp
+            member vni 50000 associate-vrf
+
+          interface Ethernet1/1
+            no switchport
+            ip address 13.1.1.1/30
+            no shutdown
+
+          interface Ethernet1/2
+            no switchport
+            ip address 14.1.1.1/30
+            no shutdown
+
+          interface Ethernet1/3
+            switchport access vlan 10
+
+          interface Ethernet1/4
+            switchport access vlan 20
+
+          interface Ethernet1/5
+
+          interface Ethernet1/6
+
+          interface Ethernet1/7
+
+          interface Ethernet1/8
+
+          interface Ethernet1/9
+
+          interface Ethernet1/10
+
+          interface Ethernet1/11
+
+          interface Ethernet1/12
+
+          interface Ethernet1/13
+
+          interface Ethernet1/14
+
+          interface Ethernet1/15
+
+          interface Ethernet1/16
+
+          interface Ethernet1/17
+
+          interface Ethernet1/18
+
+          interface Ethernet1/19
+
+          interface Ethernet1/20
+
+          interface Ethernet1/21
+
+          interface Ethernet1/22
+
+          interface Ethernet1/23
+
+          interface Ethernet1/24
+
+          interface Ethernet1/25
+
+          interface Ethernet1/26
+
+          interface Ethernet1/27
+
+          interface Ethernet1/28
+
+          interface Ethernet1/29
+
+          interface Ethernet1/30
+
+          interface Ethernet1/31
+
+          interface Ethernet1/32
+
+          interface Ethernet1/33
+
+          interface Ethernet1/34
+
+          interface Ethernet1/35
+
+          interface Ethernet1/36
+
+          interface Ethernet1/37
+
+          interface Ethernet1/38
+
+          interface Ethernet1/39
+
+          interface Ethernet1/40
+
+          interface Ethernet1/41
+
+          interface Ethernet1/42
+
+          interface Ethernet1/43
+
+          interface Ethernet1/44
+
+          interface Ethernet1/45
+
+          interface Ethernet1/46
+
+          interface Ethernet1/47
+
+          interface Ethernet1/48
+
+          interface Ethernet1/49
+
+          interface Ethernet1/50
+
+          interface Ethernet1/51
+
+          interface Ethernet1/52
+
+          interface Ethernet1/53
+
+          interface Ethernet1/54
+
+          interface Ethernet1/55
+
+          interface Ethernet1/56
+
+          interface Ethernet1/57
+
+          interface Ethernet1/58
+
+          interface Ethernet1/59
+
+          interface Ethernet1/60
+
+          interface Ethernet1/61
+
+          interface Ethernet1/62
+
+          interface Ethernet1/63
+
+          interface Ethernet1/64
+
+          interface mgmt0
+            vrf member management
+
+          interface loopback0
+            ip address 1.1.1.1/32
+          icam monitor scale
+
+          line console
+            exec-timeout 0
+          line vty
+            exec-timeout 0
+          boot nxos bootflash:/nxos64-cs.10.5.3.F.bin
+          router bgp 65001
+            router-id 1.1.1.1
+            address-family ipv4 unicast
+              network 1.1.1.1/32
+              maximum-paths 2
+            neighbor 2.2.2.2
+              remote-as 65002
+              update-source loopback0
+              ebgp-multihop 3
+              address-family l2vpn evpn
+                send-community
+                send-community extended
+            neighbor 13.1.1.2
+              remote-as 65000
+              address-family ipv4 unicast
+            neighbor 14.1.1.2
+              remote-as 65000
+              address-family ipv4 unicast
+            vrf PROD
+              address-family ipv4 unicast
+                network 172.16.10.0/24
+                network 172.16.20.0/24
+          evpn
+            vni 10010 l2
+              rd auto
+              route-target import 10010:10010
+              route-target export 10010:10010
+            vni 10020 l2
+              rd auto
+              route-target import 10020:10020
+              route-target export 10020:10020
+
+          no logging console
     cpu_limit: null
     cpus: null
     data_volume: null
@@ -334,7 +601,274 @@ nodes:
         type: physical
         slot: 5
   - boot_disk_size: null
-    configuration: []
+    configuration:
+      - name: nxos_config.txt
+        content: |2-
+
+          !Command: show running-config
+          !Running configuration last done at: Wed Apr 29 14:06:17 2026
+          !Time: Wed Apr 29 14:06:18 2026
+
+          version 10.5(3) Bios:version
+          hostname LEAF-B
+          vdc LEAF-B id 1
+            limit-resource vlan minimum 16 maximum 4094
+            limit-resource vrf minimum 2 maximum 4096
+            limit-resource port-channel minimum 0 maximum 511
+            limit-resource m4route-mem minimum 58 maximum 58
+            limit-resource m6route-mem minimum 8 maximum 8
+
+          nv overlay evpn
+          feature bgp
+          feature fabric forwarding
+          feature interface-vlan
+          feature vn-segment-vlan-based
+          feature nv overlay
+
+          no password strength-check
+          username admin password 5 $5$JHJIKF$cKUHwa1RJrxM37PH9yptV8jmc7fy6AU1mEix6DBWxV1  role network-admin
+          username cisco password 5 $5$BJLACG$U.fsEgx19vEnhbdEdvh9ts5qVOgMCrAe4H5cXta.1g.  role network-admin
+          username cisco passphrase  lifetime 99999 warntime 14 gracetime 3
+          ip domain-lookup
+          hardware access-list tcam region racl 512
+          hardware access-list tcam region arp-ether 256 double-wide
+          snmp-server user admin network-admin auth md5 1768B3CE68FA7CCE7F181D85E98EF77213D3 priv aes-128 480FBDEC0E8075F9093143ADA2DED57D05BF localizedV2key
+          snmp-server user cisco network-admin auth md5 5223C3D86BE61B98113B20C8A7C0BD750AE7 priv aes-128 5206EEFB1B822AA904386DC0A099C56117BA localizedV2key
+          rmon event 1 log trap public description FATAL(1) owner PMON@FATAL
+          rmon event 2 log trap public description CRITICAL(2) owner PMON@CRITICAL
+          rmon event 3 log trap public description ERROR(3) owner PMON@ERROR
+          rmon event 4 log trap public description WARNING(4) owner PMON@WARNING
+          rmon event 5 log trap public description INFORMATION(5) owner PMON@INFO
+
+          fabric forwarding anycast-gateway-mac 0001.0001.0001
+          vlan 1,10,20,50
+          vlan 10
+            vn-segment 10010
+          vlan 20
+            vn-segment 10020
+          vlan 50
+            vn-segment 50000
+
+          vrf context PROD
+            vni 50000
+            rd 2:50000
+            address-family ipv4 unicast
+              route-target import 50000:50000
+              route-target import 50000:50000 evpn
+              route-target export 50000:50000
+              route-target export 50000:50000 evpn
+          vrf context management
+
+          interface Vlan1
+
+          interface Vlan10
+            no shutdown
+            vrf member PROD
+            ip address 172.16.10.1/24
+            fabric forwarding mode anycast-gateway
+
+          interface Vlan20
+            no shutdown
+            vrf member PROD
+            ip address 172.16.20.1/24
+            fabric forwarding mode anycast-gateway
+
+          interface Vlan50
+            no shutdown
+            vrf member PROD
+            ip forward
+
+          interface nve1
+            no shutdown
+            host-reachability protocol bgp
+            source-interface loopback0
+            member vni 10010
+              ingress-replication protocol bgp
+            member vni 10020
+              ingress-replication protocol bgp
+            member vni 50000 associate-vrf
+
+          interface Ethernet1/1
+            no switchport
+            ip address 24.1.1.1/30
+            no shutdown
+
+          interface Ethernet1/2
+            switchport access vlan 10
+
+          interface Ethernet1/3
+            no switchport
+            ip address 23.1.1.1/30
+            no shutdown
+
+          interface Ethernet1/4
+            switchport access vlan 20
+
+          interface Ethernet1/5
+
+          interface Ethernet1/6
+
+          interface Ethernet1/7
+
+          interface Ethernet1/8
+
+          interface Ethernet1/9
+
+          interface Ethernet1/10
+
+          interface Ethernet1/11
+
+          interface Ethernet1/12
+
+          interface Ethernet1/13
+
+          interface Ethernet1/14
+
+          interface Ethernet1/15
+
+          interface Ethernet1/16
+
+          interface Ethernet1/17
+
+          interface Ethernet1/18
+
+          interface Ethernet1/19
+
+          interface Ethernet1/20
+
+          interface Ethernet1/21
+
+          interface Ethernet1/22
+
+          interface Ethernet1/23
+
+          interface Ethernet1/24
+
+          interface Ethernet1/25
+
+          interface Ethernet1/26
+
+          interface Ethernet1/27
+
+          interface Ethernet1/28
+
+          interface Ethernet1/29
+
+          interface Ethernet1/30
+
+          interface Ethernet1/31
+
+          interface Ethernet1/32
+
+          interface Ethernet1/33
+
+          interface Ethernet1/34
+
+          interface Ethernet1/35
+
+          interface Ethernet1/36
+
+          interface Ethernet1/37
+
+          interface Ethernet1/38
+
+          interface Ethernet1/39
+
+          interface Ethernet1/40
+
+          interface Ethernet1/41
+
+          interface Ethernet1/42
+
+          interface Ethernet1/43
+
+          interface Ethernet1/44
+
+          interface Ethernet1/45
+
+          interface Ethernet1/46
+
+          interface Ethernet1/47
+
+          interface Ethernet1/48
+
+          interface Ethernet1/49
+
+          interface Ethernet1/50
+
+          interface Ethernet1/51
+
+          interface Ethernet1/52
+
+          interface Ethernet1/53
+
+          interface Ethernet1/54
+
+          interface Ethernet1/55
+
+          interface Ethernet1/56
+
+          interface Ethernet1/57
+
+          interface Ethernet1/58
+
+          interface Ethernet1/59
+
+          interface Ethernet1/60
+
+          interface Ethernet1/61
+
+          interface Ethernet1/62
+
+          interface Ethernet1/63
+
+          interface Ethernet1/64
+
+          interface mgmt0
+            vrf member management
+
+          interface loopback0
+            ip address 2.2.2.2/32
+          icam monitor scale
+
+          line console
+            exec-timeout 0
+          line vty
+            exec-timeout 0
+          boot nxos bootflash:/nxos64-cs.10.5.3.F.bin
+          router bgp 65002
+            router-id 2.2.2.2
+            address-family ipv4 unicast
+              network 2.2.2.2/32
+              maximum-paths 2
+            neighbor 1.1.1.1
+              remote-as 65001
+              update-source loopback0
+              ebgp-multihop 3
+              address-family l2vpn evpn
+                send-community
+                send-community extended
+            neighbor 23.1.1.2
+              remote-as 65000
+              address-family ipv4 unicast
+            neighbor 24.1.1.2
+              remote-as 65000
+              address-family ipv4 unicast
+            vrf PROD
+              address-family ipv4 unicast
+                network 172.16.10.0/24
+                network 172.16.20.0/24
+          evpn
+            vni 10010 l2
+              rd auto
+              route-target import 10010:10010
+              route-target export 10010:10010
+            vni 10020 l2
+              rd auto
+              route-target import 10020:10020
+              route-target export 10020:10020
+
+          no logging console
     cpu_limit: null
     cpus: null
     data_volume: null
@@ -384,7 +918,156 @@ nodes:
         type: physical
         slot: 5
   - boot_disk_size: null
-    configuration: []
+    configuration:
+      - name: ios_config.txt
+        content: |-
+          Building configuration...
+
+          Current configuration : 1506 bytes
+          !
+          ! Last configuration change at 14:06:49 UTC Wed Apr 29 2026
+          !
+          version 17.16
+          service timestamps debug datetime msec
+          service timestamps log datetime msec
+          !
+          hostname SPINE1
+          !
+          boot-start-marker
+          boot-end-marker
+          !
+          !
+          no logging console
+          no aaa new-model
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          ip cef
+          login on-success log
+          no ipv6 cef
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          memory free low-watermark processor 79983
+          !
+          !
+          spanning-tree mode rapid-pvst
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          interface Loopback0
+           ip address 3.3.3.3 255.255.255.255
+          !
+          interface Ethernet0/0
+           no ip address
+           shutdown
+          !
+          interface Ethernet0/1
+           no ip address
+           shutdown
+          !
+          interface Ethernet0/2
+           no ip address
+           shutdown
+          !
+          interface Ethernet0/3
+           no ip address
+           shutdown
+          !
+          interface Ethernet1/0
+           no ip address
+           shutdown
+          !
+          interface Ethernet1/1
+           ip address 13.1.1.2 255.255.255.252
+          !
+          interface Ethernet1/2
+           no ip address
+           shutdown
+          !
+          interface Ethernet1/3
+           ip address 23.1.1.2 255.255.255.252
+          !
+          router bgp 65000
+           bgp router-id 3.3.3.3
+           bgp log-neighbor-changes
+           neighbor 13.1.1.1 remote-as 65001
+           neighbor 23.1.1.1 remote-as 65002
+           !
+           address-family ipv4
+            network 3.3.3.3 mask 255.255.255.255
+            neighbor 13.1.1.1 activate
+            neighbor 23.1.1.1 activate
+           exit-address-family
+          !
+          ip forward-protocol nd
+          ip forward-protocol udp
+          !
+          !
+          ip http server
+          ip http secure-server
+          ip ssh bulk-mode 131072
+          no logging btrace
+          !
+          !
+          !
+          control-plane
+          !
+          !
+          !
+          line con 0
+           exec-timeout 0 0
+           logging synchronous
+          line aux 0
+          line vty 0 4
+           exec-timeout 0 0
+           login
+           transport input ssh
+          !
+          !
+          !
+          !
+          end
     cpu_limit: null
     cpus: null
     data_volume: null
@@ -444,7 +1127,155 @@ nodes:
         type: physical
         slot: 7
   - boot_disk_size: null
-    configuration: []
+    configuration:
+      - name: ios_config.txt
+        content: |-
+          Building configuration...
+
+          Current configuration : 1467 bytes
+          !
+          ! Last configuration change at 14:06:49 UTC Wed Apr 29 2026
+          !
+          version 17.16
+          service timestamps debug datetime msec
+          service timestamps log datetime msec
+          !
+          hostname SPINE2
+          !
+          boot-start-marker
+          boot-end-marker
+          !
+          !
+          no logging console
+          no aaa new-model
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          ip cef
+          login on-success log
+          no ipv6 cef
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          memory free low-watermark processor 79983
+          !
+          !
+          spanning-tree mode rapid-pvst
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          !
+          interface Loopback0
+           ip address 4.4.4.4 255.255.255.255
+          !
+          interface Ethernet0/0
+           no ip address
+           shutdown
+          !
+          interface Ethernet0/1
+           no ip address
+           shutdown
+          !
+          interface Ethernet0/2
+           no ip address
+           shutdown
+          !
+          interface Ethernet0/3
+           no ip address
+           shutdown
+          !
+          interface Ethernet1/0
+           no ip address
+           shutdown
+          !
+          interface Ethernet1/1
+           ip address 24.1.1.2 255.255.255.252
+          !
+          interface Ethernet1/2
+           ip address 14.1.1.2 255.255.255.252
+          !
+          interface Ethernet1/3
+           no ip address
+           shutdown
+          !
+          router bgp 65000
+           bgp router-id 4.4.4.4
+           bgp log-neighbor-changes
+           neighbor 14.1.1.1 remote-as 65001
+           neighbor 24.1.1.1 remote-as 65002
+           !
+           address-family ipv4
+            neighbor 14.1.1.1 activate
+            neighbor 24.1.1.1 activate
+           exit-address-family
+          !
+          ip forward-protocol nd
+          ip forward-protocol udp
+          !
+          !
+          ip http server
+          ip http secure-server
+          ip ssh bulk-mode 131072
+          no logging btrace
+          !
+          !
+          !
+          control-plane
+          !
+          !
+          !
+          line con 0
+           exec-timeout 0 0
+           logging synchronous
+          line aux 0
+          line vty 0 4
+           exec-timeout 0 0
+           login
+           transport input ssh
+          !
+          !
+          !
+          !
+          end
     cpu_limit: null
     cpus: null
     data_volume: null
